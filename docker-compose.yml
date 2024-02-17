@@ -1,0 +1,15 @@
+version: '2'
+services:
+  neo4j:
+    image: neo4j:5.16.0
+    container_name: neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: neo4j/golf-happy-picasso-bonus-baron-6004
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j_db_data:/data
+volumes:
+  neo4j_db_data:
