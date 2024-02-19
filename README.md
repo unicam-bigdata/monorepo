@@ -49,11 +49,11 @@ docker-compose up
 ```
 
 <br/>
-3- By default, the username and password is neo4j. You will be required to change it by accessing the 
-
-http://localhost:7474/browser/ . Log in by enter the default username and password and then set your new password.
+3- By default, the username and password is neo4j. You will be required to change it by accessing the Neo4J browser 
+interface <a href="http://localhost:7474/browser/">here</a> . Log in by enter the default username and password and then set your new password.
 <br/>
 
+Note: The Neo4J browser URL is the default url that is running in your machine. Make sure that you change the URL for the Neo4J interface if you are running it on a different port number.
 
 4- Stop docker container by using the following command:
 

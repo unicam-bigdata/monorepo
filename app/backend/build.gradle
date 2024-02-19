@@ -19,9 +19,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
+	implementation 'org.neo4j.driver:neo4j-java-driver:5.16.0'
 	
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+
 }
 
 tasks.named('bootBuildImage') {
