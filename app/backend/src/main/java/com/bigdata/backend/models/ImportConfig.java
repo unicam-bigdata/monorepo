@@ -8,11 +8,13 @@ public class ImportConfig {
     private String name;
     @Schema(description = "The columns in the csv file that will be part of the node properties. It is an array of Column object. Check the Column schema for more information.", example = "[{\"name\":\"id\",\"dataType\":\"STRING\"},{\"name\":\"fullName\",\"dataType\":\"STRING\"}]")
     private Column[] columns;
-    private String key;
+    private Column key;
     private Relationship[] relationships;
 
-    
-    public ImportConfig(String name, Column[] columns, String key, Relationship[] relationships) {
+    public ImportConfig() {
+    }
+
+    public ImportConfig(String name, Column[] columns, Column key, Relationship[] relationships) {
         this.name = name;
         this.columns = columns;
         this.key = key;
@@ -40,12 +42,12 @@ public class ImportConfig {
     }
 
 
-    public String getKey() {
+    public Column getKey() {
         return key;
     }
 
 
-    public void setKey(String key) {
+    public void setKey(Column key) {
         this.key = key;
     }
 

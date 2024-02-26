@@ -4,16 +4,17 @@ import com.bigdata.backend.enums.RelationshipDirection;
 
 public class Relationship {
     private String entityName;
-    private String primaryEntityKey;
-    private String foreignEntityKey;
+    private Column foreignEntityKey;
     private String relationShipLabel;
     private RelationshipDirection direction;
-    private Column relationshipProperties;
+    private Column[] relationshipProperties;
 
-    public Relationship(String entityName, String primaryEntityKey, String foreignEntityKey, String relationShipLabel,
-            RelationshipDirection direction, Column relationshipProperties) {
+    public Relationship() {
+    }
+
+    public Relationship(String entityName, Column foreignEntityKey, String relationShipLabel,
+                        RelationshipDirection direction, Column[] relationshipProperties) {
         this.entityName = entityName;
-        this.primaryEntityKey = primaryEntityKey;
         this.foreignEntityKey = foreignEntityKey;
         this.relationShipLabel = relationShipLabel;
         this.direction = direction;
@@ -28,19 +29,11 @@ public class Relationship {
         this.entityName = entityName;
     }
 
-    public String getPrimaryEntityKey() {
-        return primaryEntityKey;
-    }
-
-    public void setPrimaryEntityKey(String primaryEntityKey) {
-        this.primaryEntityKey = primaryEntityKey;
-    }
-
-    public String getForeignEntityKey() {
+    public Column getForeignEntityKey() {
         return foreignEntityKey;
     }
 
-    public void setForeignEntityKey(String foreignEntityKey) {
+    public void setForeignEntityKey(Column foreignEntityKey) {
         this.foreignEntityKey = foreignEntityKey;
     }
 
@@ -60,11 +53,11 @@ public class Relationship {
         this.direction = direction;
     }
 
-    public Column getRelationshipProperties() {
+    public Column[] getRelationshipProperties() {
         return relationshipProperties;
     }
 
-    public void setRelationshipProperties(Column relationshipProperties) {
+    public void setRelationshipProperties(Column[] relationshipProperties) {
         this.relationshipProperties = relationshipProperties;
     }
     

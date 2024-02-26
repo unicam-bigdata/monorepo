@@ -3,9 +3,12 @@ package com.bigdata.backend.models;
 import com.bigdata.backend.enums.ColumnDataType;
 
 
-class Column {
+public class Column {
     private String name;
     private ColumnDataType dataType;
+
+    public Column() {
+    }
 
     public Column(String name, ColumnDataType dataType) {
         this.name = name;

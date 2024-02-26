@@ -2,7 +2,8 @@ package com.bigdata.backend.enums;
 
 public enum ColumnDataType{
     STRING,
-    NUMBER,
+    INTEGER,
+    FLOAT,
     DATE,
     DATETIME
 }
