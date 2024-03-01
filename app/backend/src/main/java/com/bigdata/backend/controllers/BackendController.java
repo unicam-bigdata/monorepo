@@ -2,7 +2,10 @@ package com.bigdata.backend.controllers;
 
 
 import java.util.List;
+import java.util.Map;
 
+import com.bigdata.backend.dto.*;
+import com.bigdata.backend.services.QueryService;
 import com.bigdata.backend.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -24,12 +27,14 @@ public class BackendController {
 
     private final ImportService importService;
     private final FileManager fileManager;
+    private final QueryService queryService;
 
 
     @Autowired
-    public BackendController(ImportService importService, FileManager fileManager) {
+    public BackendController(ImportService importService, FileManager fileManager, QueryService queryService) {
         this.importService = importService;
         this.fileManager = fileManager;
+        this.queryService = queryService;
 
     }
 
@@ -70,6 +75,24 @@ public class BackendController {
     public boolean clearDatabase() {
         this.importService.clearDatabase();
         return true;
+    }
+
+    @Operation(summary = "To get all nodes of a certain label.", description = "Returns nodes of the specified label. It is possible to get filtered data by passing filter configuration. You can define pagination by configuring the limit and skip parameters.")
+    @PostMapping("nodes")
+    public List<Map<String,Object>> getNodes(@RequestBody NodesRequest nodesRequest) {
+        return this.queryService.getNodes(nodesRequest);
+    }
+
+    @Operation(summary = "To get the total count of nodes of a certain label.", description = "Returns total count of nodes of the specified label. It is possible to get the count of filtered data by passing filter configuration. This endpoint can utilized for pagination for example to determine total number of pages.")
+    @PostMapping("nodes-count")
+    public NodesCountResponse getNodesCount(@RequestBody NodesCountRequest nodesCountRequest) {
+        return this.queryService.getNodesCount(nodesCountRequest);
+    }
+
+    @Operation(summary = "To get all nodes that are directly related to a specified node.", description = "Returns an array of nodes including their relationship that are directly related to the specified node. It is also possible to request the nodes that have a specific relationship to a node by passing the relationship filter configuration.")
+    @PostMapping("related-nodes")
+    public List<RelatedNodesResponse> getRelatedNodes(@RequestBody RelatedNodesRequest relatedNodesRequest) {
+        return this.queryService.getRelatedNodes(relatedNodesRequest);
     }
 
 }

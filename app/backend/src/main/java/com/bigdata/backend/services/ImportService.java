@@ -1,20 +1,14 @@
 package com.bigdata.backend.services;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import com.bigdata.backend.models.ImportConfig;
-import com.bigdata.backend.utils.CSVJSONMapper;
 import com.bigdata.backend.utils.FileManager;
 import com.bigdata.backend.utils.JsonImportConfig;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-// import com.bigdata.backend.models.Import;
 import com.bigdata.backend.repositories.ImportRepository;
 
 @Service
