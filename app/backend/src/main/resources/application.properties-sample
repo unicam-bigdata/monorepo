@@ -1,0 +1,4 @@
+backend.neo4j.uri=bolt://localhost:7687
+backend.neo4j.username=neo4j
+backend.neo4j.password=golf-happy-picasso-bonus-baron-6004
+backend.public_domain=http://10.0.20.235:8080/

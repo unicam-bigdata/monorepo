@@ -38,6 +38,7 @@ out/
 
 ### environment ###
 env.properties
+src/main/resources/application.properties
 
 ### local file path
 files/
