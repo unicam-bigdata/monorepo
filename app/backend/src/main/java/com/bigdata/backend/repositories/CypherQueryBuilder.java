@@ -57,7 +57,7 @@ public class CypherQueryBuilder {
         Map<String, Object> map = new HashMap<>();
         boolean columnsToLoadExist = false;
         boolean relationshipsToLoadExist = false;
-        String loadCsvString = "LOAD CSV WITH HEADERS FROM '"+PUBLIC_BACKEND_DOMAIN+"cached-csv-file' AS row\n";
+        String loadCsvString = "LOAD CSV WITH HEADERS FROM '" + PUBLIC_BACKEND_DOMAIN + "cached-csv-file' AS row\n";
 
         StringBuilder constraintQueryBuilder = new StringBuilder();
         StringBuilder loadNodesQueryBuilder = new StringBuilder();
@@ -145,8 +145,6 @@ public class CypherQueryBuilder {
                         relationShipQuery += "-" + relationDefinition + "]->" + "(" + secondNodeVariable + ")\n";
                     } else if (relationships[i].getDirection() == RelationshipDirection.FROM) {
                         relationShipQuery += "<-" + relationDefinition + "]-" + "(" + secondNodeVariable + ")\n";
-                    } else if (relationships[i].getDirection() == RelationshipDirection.BIDIRECTIONAL) {
-                        relationShipQuery += "-" + relationDefinition + "]-" + "(" + secondNodeVariable + ")\n";
                     }
                     loadRelationshipsQueryBuilder.append(relationShipQuery);
                 }

@@ -1,5 +1,6 @@
 package com.bigdata.backend.utils;
 
+import com.bigdata.backend.exceptions.ImportCsvFileException;
 import com.bigdata.backend.models.Column;
 import com.bigdata.backend.models.ImportConfig;
 import com.bigdata.backend.models.Relationship;
@@ -68,7 +69,7 @@ public class JsonImportConfig {
 
 
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            throw new ImportCsvFileException(exception.getMessage());
         }
 
         return importConfigs;

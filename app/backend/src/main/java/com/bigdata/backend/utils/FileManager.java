@@ -1,5 +1,6 @@
 package com.bigdata.backend.utils;
 
+import com.bigdata.backend.exceptions.ImportCsvFileException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,7 +56,7 @@ public class FileManager {
         try (OutputStream os = Files.newOutputStream(filepath)) {
             os.write(file.getBytes());
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            throw new ImportCsvFileException(exception.getMessage());
         }
     }
 }
