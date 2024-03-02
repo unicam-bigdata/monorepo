@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.bigdata'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-VIEW#BIGDATA'
 
 java {
 	sourceCompatibility = '17'
@@ -18,6 +18,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.neo4j.driver:neo4j-java-driver:5.16.0'
+	
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+	
+	implementation 'com.opencsv:opencsv:5.9'
+
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.16.1'
+
 }
 
 tasks.named('bootBuildImage') {
