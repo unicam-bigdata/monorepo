@@ -15,7 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class CypherQueryBuilder {
+    public static String PUBLIC_BACKEND_DOMAIN;
 
     private static String generateItemProperty(Column column) {
         String property = column.getName() + ":";
@@ -55,16 +57,17 @@ public class CypherQueryBuilder {
         Map<String, Object> map = new HashMap<>();
         boolean columnsToLoadExist = false;
         boolean relationshipsToLoadExist = false;
+        String loadCsvString = "LOAD CSV WITH HEADERS FROM '"+PUBLIC_BACKEND_DOMAIN+"cached-csv-file' AS row\n";
 
         StringBuilder constraintQueryBuilder = new StringBuilder();
         StringBuilder loadNodesQueryBuilder = new StringBuilder();
         StringBuilder loadRelationshipsQueryBuilder = new StringBuilder();
 
-        loadNodesQueryBuilder.append("LOAD CSV WITH HEADERS FROM 'http://10.0.20.235:8080/cached-csv-file' AS row\n");
+        loadNodesQueryBuilder.append(loadCsvString);
         loadNodesQueryBuilder.append("CALL {\n");
         loadNodesQueryBuilder.append("WITH row\n");
 
-        loadRelationshipsQueryBuilder.append("LOAD CSV WITH HEADERS FROM 'http://10.0.20.235:8080/cached-csv-file' AS row\n");
+        loadRelationshipsQueryBuilder.append(loadCsvString);
         loadRelationshipsQueryBuilder.append("CALL {\n");
         loadRelationshipsQueryBuilder.append("WITH row\n");
 

@@ -6,6 +6,7 @@ import com.bigdata.backend.models.Column;
 import com.bigdata.backend.models.ImportConfig;
 import com.bigdata.backend.models.Relationship;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.neo4j.driver.Query;
 
@@ -18,9 +19,10 @@ public class ImportRepository {
     private final Neo4JDriver neo4JDriver;
 
     @Autowired
-    public ImportRepository(Neo4JDriver neo4jDriver) {
+    public ImportRepository(Neo4JDriver neo4jDriver,Environment environment) {
 
         this.neo4JDriver = neo4jDriver;
+        CypherQueryBuilder.PUBLIC_BACKEND_DOMAIN = environment.getProperty("backend.public_domain");
     }
 
     public void loadData(List<ImportConfig> importConfigs) {
