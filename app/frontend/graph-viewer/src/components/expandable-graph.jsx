@@ -3,11 +3,8 @@ import ForceGraph3D from 'react-force-graph-3d';
 
 export const ExpandableGraph = ({ graphData }) => {
     const rootId = 0;
-    console.log(graphData)
-
     const nodesById = useMemo(() => {
         const nodesById = Object.fromEntries(graphData.nodes.map(node => [node.id, node]));
-        console.log(nodesById);
         // link parent/children
         graphData.nodes.forEach(node => {
             node.collapsed = node.id !== rootId;
@@ -21,7 +18,6 @@ export const ExpandableGraph = ({ graphData }) => {
     const getPrunedTree = useCallback(() => {
         const visibleNodes = [];
         const visibleLinks = [];
-        console.log(nodesById);
         (function traverseTree(node = nodesById[rootId]) {
             visibleNodes.push(node);
             if (node.collapsed) return;
@@ -40,7 +36,7 @@ export const ExpandableGraph = ({ graphData }) => {
         node.collapsed = !node.collapsed; // toggle collapse state
         setPrunedTree(getPrunedTree())
     }, []);
-    console.log(prunedTree);
+    
     return <ForceGraph3D
         graphData={prunedTree}
         linkDirectionalParticles={2}

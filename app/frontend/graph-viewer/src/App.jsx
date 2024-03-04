@@ -1,7 +1,6 @@
 import './App.css';
-import { ExpandableGraph } from './expandable-graph.jsx';
-import { genRandomTree } from './graph.js';
+import { GraphViewer } from './containers/graph-viewer.jsx';
 
 export default function App() {
-return <ExpandableGraph graphData={genRandomTree()}/>
+    return <GraphViewer />
 };
