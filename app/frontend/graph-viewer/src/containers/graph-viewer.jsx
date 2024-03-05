@@ -1,5 +1,5 @@
-import { ExpandableGraph } from "../components/expandable-graph";
-import { genRandomTree } from "../graph";
+import { ExpandableGraph } from "../components/expandableGraph";
+import { genRandomTree } from "../components/graphData";
 export const GraphViewer = () => {
     return (
         <div>
