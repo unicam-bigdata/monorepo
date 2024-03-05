@@ -1,6 +1,7 @@
-import { useState, useMemo, useCallback, React } from 'react';
+import { useState, useMemo, useCallback, React, useEffect } from 'react';
 import ForceGraph3D from 'react-force-graph-3d';
 import SpriteText from "three-spritetext";
+import { getNodes } from '../api/get-nodes';
 
 export const ExpandableGraph = ({ graphData }) => {
     const rootId = 0;
