@@ -1,6 +1,5 @@
 package com.bigdata.backend.controllers;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +31,6 @@ public class BackendController {
     private final FileManager fileManager;
     private final QueryService queryService;
 
-
     @Autowired
     public BackendController(ImportService importService, FileManager fileManager, QueryService queryService) {
         this.importService = importService;
@@ -43,8 +41,8 @@ public class BackendController {
 
     @Operation(summary = "Import data from CSV file", description = "This endpoint allows you to load data from a csv file to the neo4j database. You need to send a 'multipart/form-data' data consisting of file: binary csv file and config: a configuration array in JSON string format based on ImportConfig Schema. Each element in the config array denote a specific node in the graph database. Note: If you specified a relationship on a node, don't specify the relationship on the other node configuration. Please refer to '/config-editor' endpoint documentation to see how a valid json configuration looks like.")
     @RequestMapping(value = "/csv", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String loadCsv(@Parameter(description = "CSV file") @Valid  @RequestPart("file") MultipartFile file,
-                          @Parameter(description = "A JSON array based on the ImportConfig Schema. Note: Check the ImportConfig schema section.") @Valid @RequestPart("config") String config) {
+    public String loadCsv(@Parameter(description = "CSV file") @Valid @RequestPart("file") MultipartFile file,
+            @Parameter(description = "A JSON array based on the ImportConfig Schema. Note: Check the ImportConfig schema section.") @Valid @RequestPart("config") String config) {
         this.importService.importCsv(file, config);
 
         return "CSV file uploaded successfully";
@@ -60,7 +58,8 @@ public class BackendController {
     @GetMapping("cached-csv-file")
     public ResponseEntity<FileSystemResource> serveCsvFile() {
         // Create a FileSystemResource representing the local file
-        FileSystemResource fileResource = new FileSystemResource(this.fileManager.getRootFileDirectory() + "import.csv");
+        FileSystemResource fileResource = new FileSystemResource(
+                this.fileManager.getRootFileDirectory() + "import.csv");
 
         // Check if the file exists
         if (!fileResource.exists()) {
@@ -82,7 +81,7 @@ public class BackendController {
 
     @Operation(summary = "To get all nodes of a certain label.", description = "Returns nodes of the specified label. It is possible to get filtered data by passing filter configuration. You can define pagination by configuring the limit and skip parameters.")
     @PostMapping("nodes")
-    public List<Map<String,Object>> getNodes(@Valid @RequestBody NodesRequest nodesRequest) {
+    public List<Map<String, Object>> getNodes(@Valid @RequestBody NodesRequest nodesRequest) {
         return this.queryService.getNodes(nodesRequest);
     }
 
@@ -96,6 +95,12 @@ public class BackendController {
     @PostMapping("related-nodes")
     public List<RelatedNodesResponse> getRelatedNodes(@Valid @RequestBody RelatedNodesRequest relatedNodesRequest) {
         return this.queryService.getRelatedNodes(relatedNodesRequest);
+    }
+
+    @Operation(summary = "To get the primary keys of a node Label.", description = "Returns an array of object composed of label that denotes a node label and key that denotes the identifier(a.k.a Primary key column).")
+    @GetMapping("identifiers")
+    public List<Map<String, Object>> getIdentifiers() {
+        return this.queryService.getIdentifiers();
     }
 
 }

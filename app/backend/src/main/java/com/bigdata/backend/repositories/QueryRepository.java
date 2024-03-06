@@ -16,4 +16,7 @@ public interface QueryRepository {
 
     public List<RelatedNodesResponse> getRelatedNodes(RelatedNodesRequest relatedNodesRequest);
 
+    public List<Map<String, Object>> getIdentifiers();
+
+
 }

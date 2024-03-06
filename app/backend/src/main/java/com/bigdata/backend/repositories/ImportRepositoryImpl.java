@@ -31,6 +31,11 @@ public class ImportRepositoryImpl implements ImportRepository {
             session.run(query);
             System.out.println("Constraints for all nodes configured successfully.");
 
+            //Add identifier of each node labels
+            query = new Query(importQueryStringMap.get("identifierNodesQuery").toString());
+            session.run(query);
+            System.out.println("Identifer lookup generated.");
+            
             //Load the data nodes after constraints have been defined
             if (!importQueryStringMap.get("loadNodesQuery").toString().isEmpty()) {
                 query = new Query(importQueryStringMap.get("loadNodesQuery").toString());

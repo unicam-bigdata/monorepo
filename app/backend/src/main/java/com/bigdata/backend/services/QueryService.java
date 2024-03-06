@@ -2,12 +2,9 @@ package com.bigdata.backend.services;
 
 import com.bigdata.backend.dto.*;
 import com.bigdata.backend.repositories.QueryRepository;
-import org.neo4j.driver.Query;
-import org.neo4j.driver.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,5 +30,9 @@ public class QueryService {
 
     public List<RelatedNodesResponse> getRelatedNodes(RelatedNodesRequest relatedNodesRequest) {
         return this.queryRepository.getRelatedNodes(relatedNodesRequest);
+    }
+
+    public List<Map<String, Object>> getIdentifiers() {
+        return this.queryRepository.getIdentifiers();
     }
 }

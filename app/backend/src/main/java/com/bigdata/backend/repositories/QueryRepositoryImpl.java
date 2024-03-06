@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+
 
 @Component
 public class QueryRepositoryImpl implements QueryRepository {
@@ -117,5 +119,23 @@ public class QueryRepositoryImpl implements QueryRepository {
         }
 
         return items;
+    }
+
+    @Override
+    public List<Map<String, Object>> getIdentifiers() {
+        List<Map<String, Object>> identifiers = new  ArrayList<>();
+        try (var session = this.neo4JDriver.getDriver().session()) {
+            String queryString = "Match (n:Identifier) RETURN n";
+            var query = new Query(queryString);
+            var result = session.run(query);
+            while (result.hasNext()) {
+                Record record = result.next();
+                identifiers.add(record.get("n").asMap());  
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return identifiers;
     }
 }
