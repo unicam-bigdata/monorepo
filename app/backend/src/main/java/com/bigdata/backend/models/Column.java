@@ -1,10 +1,13 @@
 package com.bigdata.backend.models;
 
 import com.bigdata.backend.enums.ColumnDataType;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-
+@Schema(description = "This is used to specify the column name or property and datatype.")
 public class Column {
+    @Schema(description = "The name of the column or property.")
     private String name;
+    @Schema(description = "The data type of the property.")
     private ColumnDataType dataType;
 
     public Column() {

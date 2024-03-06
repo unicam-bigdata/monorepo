@@ -2,6 +2,7 @@ package com.bigdata.backend.services;
 
 import java.util.List;
 
+import com.bigdata.backend.exceptions.ImportCsvFileException;
 import com.bigdata.backend.models.ImportConfig;
 import com.bigdata.backend.utils.FileManager;
 import com.bigdata.backend.utils.JsonImportConfig;
@@ -31,7 +32,7 @@ public class ImportService {
             this.importRepository.loadData(importConfigs);
 
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            throw new ImportCsvFileException(exception.getMessage());
         }
 
     }
