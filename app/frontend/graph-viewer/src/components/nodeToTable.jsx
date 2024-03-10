@@ -29,9 +29,10 @@ export async function genTableImg(node) {
     }
             
     table.className = 'node-label';
-    document.body.append(table);
+    return table;
+    // document.body.append(table);
 
-    return await toJpeg(table).then(function (imgUrl) {
-        return imgUrl;
-    })
+    // return await toJpeg(table).then(function (imgUrl) {
+    //     return imgUrl;
+    // })
 }

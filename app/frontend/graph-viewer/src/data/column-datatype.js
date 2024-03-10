@@ -1,0 +1,7 @@
+export const COLUMNDATATYPE = {
+    STRING: "STRING",
+    INTEGER: "INTEGER",
+    FLOAT: "FLOAT",
+    DATE: "DATE",
+    DATETIME: "DATETIME"
+};

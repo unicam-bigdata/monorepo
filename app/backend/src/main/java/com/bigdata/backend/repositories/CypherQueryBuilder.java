@@ -57,9 +57,10 @@ public class CypherQueryBuilder {
         Map<String, Object> map = new HashMap<>();
         boolean columnsToLoadExist = false;
         boolean relationshipsToLoadExist = false;
-        String loadCsvString = "LOAD CSV WITH HEADERS FROM '"+PUBLIC_BACKEND_DOMAIN+"cached-csv-file' AS row\n";
+        String loadCsvString = "LOAD CSV WITH HEADERS FROM '" + PUBLIC_BACKEND_DOMAIN + "cached-csv-file' AS row\n";
 
         StringBuilder constraintQueryBuilder = new StringBuilder();
+        StringBuilder identifierNodesQueryBuilder = new StringBuilder();
         StringBuilder loadNodesQueryBuilder = new StringBuilder();
         StringBuilder loadRelationshipsQueryBuilder = new StringBuilder();
 
@@ -83,8 +84,13 @@ public class CypherQueryBuilder {
             constraintQueryBuilder.append(forEntityName);
 
             String uniqueProperty = "node." + importConfig.getKey().getName();
-            String requireUnique = "REQUIRE " + uniqueProperty + " IS UNIQUE\n";
+            String requireUnique = "REQUIRE " + uniqueProperty + " IS UNIQUE;";
             constraintQueryBuilder.append(requireUnique);
+
+
+            // Create identifiers node to contain a Label-Key lookup
+            String identifierTable = "Merge (n:Identifier{label:'"+ importConfig.getName() + "',key:'"+importConfig.getKey().getName() +"'}) RETURN n";
+            identifierNodesQueryBuilder.append(identifierTable);          
 
             //generate loadNodes query
             Column[] columns = importConfig.getColumns();
@@ -145,8 +151,6 @@ public class CypherQueryBuilder {
                         relationShipQuery += "-" + relationDefinition + "]->" + "(" + secondNodeVariable + ")\n";
                     } else if (relationships[i].getDirection() == RelationshipDirection.FROM) {
                         relationShipQuery += "<-" + relationDefinition + "]-" + "(" + secondNodeVariable + ")\n";
-                    } else if (relationships[i].getDirection() == RelationshipDirection.BIDIRECTIONAL) {
-                        relationShipQuery += "-" + relationDefinition + "]-" + "(" + secondNodeVariable + ")\n";
                     }
                     loadRelationshipsQueryBuilder.append(relationShipQuery);
                 }
@@ -165,6 +169,7 @@ public class CypherQueryBuilder {
         map.put("constraintQuery", constraintQueryBuilder.toString());
         map.put("loadNodesQuery", loadNodesQueryBuilder.toString());
         map.put("loadRelationshipsQuery", loadRelationshipsQueryBuilder.toString());
+        map.put("identifierNodesQuery", identifierNodesQueryBuilder.toString());
         return map;
     }
 

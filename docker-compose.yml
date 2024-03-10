@@ -6,25 +6,26 @@ services:
       context: ./app/backend 
       dockerfile: Dockerfile 
     networks:
-      - docker_network
+      - docker-network
+    container_name: backend
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
-      - backend.neo4j.uri=bolt://10.0.21.18:7687
+      - backend.neo4j.uri=bolt://neo4j:7687
       - backend.neo4j.username=neo4j
-      - backend.neo4j.password=password
+      - backend.neo4j.password=golf-happy-picasso-bonus-baron-6004
       - backend.public_domain=http://backend:8080/
     depends_on:
       - neo4j 
 
   neo4j:
     image: neo4j:5.16.0
-    container_name: neo4j
     networks:
-      - docker_network
+      - docker-network
+    container_name: neo4j
     restart: always
     environment:
-      NEO4J_AUTH: neo4j/password
+      NEO4J_AUTH: neo4j/golf-happy-picasso-bonus-baron-6004
     ports:
       - 7474:7474
       - 7687:7687
@@ -35,4 +36,5 @@ volumes:
   neo4j_db_data:
 
 networks:
-  docker_network:
+  docker-network:
+    driver: bridge

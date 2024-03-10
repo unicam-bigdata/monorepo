@@ -1,3 +1,5 @@
 export const endpoints = {
-    getNodes:"/nodes"
+    getNodes:"/nodes",
+    getRelatedNodes:"/related-nodes",
+    getIdentifiers:"/identifiers",
 };

@@ -1,28 +1,41 @@
 import { ExpandableGraph } from "../components/expandableGraph";
 import { getNodes } from "../api/get-nodes";
-import { dataConfig } from "../data-config";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { getIdentifiers } from "../api/get-identifiers";
+import { AppContext } from "../context/app-context";
 
 export const GraphViewer = () => {
-    const [data, setData] = useState();
+    const { identifiers, setIdentifiers, data, setData } = useContext(AppContext);
 
     useEffect(() => {
-        const result = getNodes({ nodeName: "Person" }).then((result) => {
-            const nodes = result.data.map((item) => ({ ...item, id: item[dataConfig.Person] }));
-            const links = [{ source: "1", target: "2" }, { source: "1", target: "3" }, { source: "1", target: "4" }, { source: "3", target: "5" }];
+        getIdentifiers().then((result) => {
+            setIdentifiers(result.data);
+        })
 
-            const relationStructure = {
-                nodes,
-                links
-            };
-            setData(relationStructure);
+    }, []);
 
-        });
-    }, [])
+    useEffect(() => {
+        if (identifiers) {
+            getNodes({ nodeName: "Person" }).then((result) => {
+                const nodeLabel = "Person";
+                const nodeKey = identifiers?.find((item) => item.label === nodeLabel).key;
+                const nodes = result.data.map((item) => ({ label: nodeLabel, ...item, id: item[nodeKey], collapsed: true }));
+                const links = [];
+
+                const relationStructure = {
+                    nodes,
+                    links
+                };
+                setData(relationStructure);
+
+            })
+        }
+
+    }, [identifiers]);
 
     return (
         <div>
-            {data && <ExpandableGraph graphData={data}  />}
+            {data && <ExpandableGraph graphData={data} />}
 
         </div>
     )

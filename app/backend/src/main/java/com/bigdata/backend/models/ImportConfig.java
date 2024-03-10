@@ -1,14 +1,24 @@
 package com.bigdata.backend.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "ImportConfig model")
 public class ImportConfig {
-    @Schema(description = "Node label that will be created in the graph database", example = "Person")
+    @Schema(description = "Node label that will be created in the graph database.", example = "Person")
+    @NotBlank(message = "name must be specified.")
     private String name;
-    @Schema(description = "The columns in the csv file that will be part of the node properties. It is an array of Column object. Check the Column schema for more information.", example = "[{\"name\":\"id\",\"dataType\":\"STRING\"},{\"name\":\"fullName\",\"dataType\":\"STRING\"}]")
+
+    @Schema(description = "The columns in the csv file that will be part of the node properties. It is an array of Column object. Check the Column schema for more information.", example = "[{\"name\":\"personId\",\"dataType\":\"STRING\"},{\"name\":\"fullName\",\"dataType\":\"STRING\"}]")
     private Column[] columns;
+
+    @NotNull(message = "key must be defined in order to have an identifier for a node.")
+    @Schema(description = "The column that will serve as the primary key.")
     private Column key;
+
+    @Schema(description = "Contains array of relationship configurations that the node label specified has. This property is used to define the column in the csv that will serve as a reference to the related node.")
     private Relationship[] relationships;
 
     public ImportConfig() {
@@ -59,6 +69,6 @@ public class ImportConfig {
 
     public void setRelationships(Relationship[] relationships) {
         this.relationships = relationships;
-    }    
-    
+    }
+
 }

@@ -1,8 +1,10 @@
 package com.bigdata.backend.dto;
 
 import com.bigdata.backend.utils.Filter;
+import jakarta.validation.constraints.NotBlank;
 
 public class NodesCountRequest {
+    @NotBlank(message = "nodeName must be specified.")
     private String nodeName;
     private Filter[][] filter;
 
