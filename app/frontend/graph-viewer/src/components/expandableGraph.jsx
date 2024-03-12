@@ -2,7 +2,6 @@ import { useCallback, React, useContext } from 'react';
 import ForceGraph3D from 'react-force-graph-3d';
 import SpriteText from "three-spritetext";
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-import * as THREE from 'three'
 import { getRelatedNodes } from '../api/get-related-nodes';
 import { AppContext } from '../context/app-context';
 
@@ -87,26 +86,34 @@ export const ExpandableGraph = ({ graphData }) => {
         backgroundColor={"#222222"}
         extraRenderers={extraRenderers}
         graphData={graphData}
-        nodeRelSize={10}
+        
         linkWidth={1}
         linkDirectionalParticles={3}
         linkDirectionalArrowLength={5}
-        linkThreeObjectExtend={true}
+        /* linkThreeObjectExtend={true}
         linkThreeObject={(link) => {
             const sprite = new SpriteText(link.relationship.name);
-            sprite.color = "yellow";
+            sprite.color = "#6494ff";
             sprite.textHeight = 2.0;
             return sprite;
         }}
         linkPositionUpdate={(sprite, { start, end }) => {
             const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({ [c]: start[c] + (end[c] - start[c]) / 2 })));
             Object.assign(sprite.position, middlePos);
-        }}
+        }} */
 
-        nodeOpacity={0.3}
-        nodeColor={node => node.collapsed ? 'blue' : 'green'}
+        nodeOpacity={0}
         nodeThreeObjectExtend={true}
-        nodeThreeObject={(node) => {
+        nodeThreeObject={node => {
+            const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
+            const sprite = new SpriteText(node[nodeProperties[1]]);
+            const color = node.collapsed ? '#6494ff' : '#64ff99';
+
+            sprite.color = color;
+            sprite.textHeight = 10;
+            return sprite;
+        }}
+        /* nodeThreeObject={(node) => {
             const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
             const table = document.createElement('table');
             table.border = true;
@@ -138,7 +145,7 @@ export const ExpandableGraph = ({ graphData }) => {
 
             table.className = 'node-label';
             return new CSS2DObject(table);
-        }}
+        }} */
 
         onNodeClick={handleNodeClick}
     />;

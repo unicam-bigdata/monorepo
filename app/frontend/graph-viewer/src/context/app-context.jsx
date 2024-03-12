@@ -7,8 +7,6 @@ export const AppContextProvider = ({ children }) => {
     const [data, setData] = useState();
     const [expandedNodes, setExpandedNodes] = useState([]);
 
-
-
     return (<AppContext.Provider value={{ identifiers, setIdentifiers, data, setData, expandedNodes, setExpandedNodes }}>
         {children}
     </AppContext.Provider>);
