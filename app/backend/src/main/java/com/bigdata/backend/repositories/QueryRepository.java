@@ -8,15 +8,13 @@ import java.util.Map;
 
 public interface QueryRepository {
 
-    public List<String> getMetaData();
+    List<Map<String, Object>> getNodes(NodesRequest nodesRequest);
 
-    public List<Map<String, Object>> getNodes(NodesRequest nodesRequest);
+    NodesCountResponse getNodesCount(NodesCountRequest nodesCountRequest);
 
-    public NodesCountResponse getNodesCount(NodesCountRequest nodesCountRequest);
+    List<RelatedNodesResponse> getRelatedNodes(RelatedNodesRequest relatedNodesRequest);
 
-    public List<RelatedNodesResponse> getRelatedNodes(RelatedNodesRequest relatedNodesRequest);
+    List<Map<String, Object>> getIdentifiers();
 
-    public List<Map<String, Object>> getIdentifiers();
-
-
+    List<String> getNodeProperties(String label);
 }
