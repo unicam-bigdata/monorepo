@@ -1,6 +1,6 @@
 import { ConditionContainer } from "./ConditionContainer";
 
-export function FilterOption({ filterFieldArray, control, register, errors }) {
+export function FilterOption({ filterFieldArray, control, register, errors, keys }) {
     return (
         <>
             {
@@ -10,7 +10,7 @@ export function FilterOption({ filterFieldArray, control, register, errors }) {
                         <div className="remove-filter-container">
                             <button className="btn-outline" onClick={() => { filterFieldArray.remove(filterFieldArray.fields.length - 1) }}>Remove filter</button>
                         </div>
-                        <ConditionContainer index={index} control={control} register={register} errors={errors} />
+                        <ConditionContainer index={index} control={control} register={register} errors={errors} keys={keys} />
 
                     </div>))
             }

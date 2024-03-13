@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const Input = React.forwardRef(({ label, name, type, selectOptions, placeholder, error, ...reacthookForm }, ref) => {
     const [inputType, setInputType] = useState(type ? type : "text");
     const [options, setOptions] = useState(selectOptions ? selectOptions : []);
+
+    useEffect(() => {
+        setOptions(selectOptions);
+    }, [selectOptions])
 
     return (
         <div>
