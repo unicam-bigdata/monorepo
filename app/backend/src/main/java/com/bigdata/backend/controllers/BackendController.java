@@ -73,7 +73,7 @@ public class BackendController {
     }
 
     @Operation(summary = "To clear the database.", description = "Clears the database.")
-    @PostMapping("clear-database")
+    @DeleteMapping("clear-database")
     public boolean clearDatabase() {
         this.importService.clearDatabase();
         return true;
@@ -95,6 +95,12 @@ public class BackendController {
     @PostMapping("related-nodes")
     public List<RelatedNodesResponse> getRelatedNodes(@Valid @RequestBody RelatedNodesRequest relatedNodesRequest) {
         return this.queryService.getRelatedNodes(relatedNodesRequest);
+    }
+
+    @Operation(summary = "To get the properties of a node.", description = "Returns an array of properties.")
+    @GetMapping("node-properties/{label}")
+    public List<String> getNodeProperties(@PathVariable("label") String label) {
+        return this.queryService.getNodeProperties(label);
     }
 
     @Operation(summary = "To get the primary keys of a node Label.", description = "Returns an array of object composed of label that denotes a node label and key that denotes the identifier(a.k.a Primary key column).")
