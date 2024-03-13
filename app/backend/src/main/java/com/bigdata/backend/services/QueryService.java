@@ -17,10 +17,6 @@ public class QueryService {
         this.queryRepository = queryRepository;
     }
 
-    public MetaDataResponse getMetaData() {
-        return new MetaDataResponse(this.queryRepository.getMetaData());
-    }
-
     public List<Map<String, Object>> getNodes(NodesRequest nodesRequest) {
         return this.queryRepository.getNodes(nodesRequest);
     }

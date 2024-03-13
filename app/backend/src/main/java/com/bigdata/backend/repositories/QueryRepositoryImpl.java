@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 
 @Component
@@ -18,32 +17,6 @@ public class QueryRepositoryImpl implements QueryRepository {
 
     public QueryRepositoryImpl(Neo4JDriver neo4JDriver) {
         this.neo4JDriver = neo4JDriver;
-    }
-
-
-    @Override
-    public List<String> getMetaData() {
-        List<String> labels = new ArrayList<>();
-        try (var session = this.neo4JDriver.getDriver().session()) {
-            // Get all labels
-            var query = new Query("MATCH (n) RETURN distinct labels(n) AS labels");
-            var result = session.run(query);
-
-
-            while (result.hasNext()) {
-                Record record = result.next();
-                List<Object> label = record.get("labels").asList();
-                if (!label.isEmpty()) {
-                    labels.add(label.get(0).toString());
-                }
-
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-        return labels;
     }
 
     @Override
