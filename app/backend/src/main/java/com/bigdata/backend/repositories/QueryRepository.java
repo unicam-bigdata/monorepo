@@ -18,5 +18,5 @@ public interface QueryRepository {
 
     public List<Map<String, Object>> getIdentifiers();
 
-
+    public List<String> getNodeProperties(String label);
 }

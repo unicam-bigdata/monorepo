@@ -13,14 +13,15 @@ public class QueryService {
     private final QueryRepository queryRepository;
 
     @Autowired
-    public QueryService(QueryRepository queryRepository){
+    public QueryService(QueryRepository queryRepository) {
         this.queryRepository = queryRepository;
     }
-    public MetaDataResponse getMetaData(){
+
+    public MetaDataResponse getMetaData() {
         return new MetaDataResponse(this.queryRepository.getMetaData());
     }
 
-    public List<Map<String,Object>> getNodes(NodesRequest nodesRequest) {
+    public List<Map<String, Object>> getNodes(NodesRequest nodesRequest) {
         return this.queryRepository.getNodes(nodesRequest);
     }
 
@@ -34,5 +35,9 @@ public class QueryService {
 
     public List<Map<String, Object>> getIdentifiers() {
         return this.queryRepository.getIdentifiers();
+    }
+
+    public List<String> getNodeProperties(String label) {
+        return this.queryRepository.getNodeProperties(label);
     }
 }
