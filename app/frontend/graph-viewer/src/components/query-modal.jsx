@@ -17,11 +17,7 @@ export function QueryModal({ setOpenModal }) {
 
     const defaultValues = {
         label: "",
-        filter: [
-            {
-                condition: [{ filterOperator: "", datatype: "", key: "", value: "" }]
-            },
-        ]
+        filter: []
     };
 
     const {

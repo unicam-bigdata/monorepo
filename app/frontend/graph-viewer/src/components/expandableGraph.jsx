@@ -4,6 +4,7 @@ import SpriteText from "three-spritetext";
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 import { getRelatedNodes } from '../api/get-related-nodes';
 import { AppContext } from '../context/app-context';
+import { nodeToTable } from './nodeToTable';
 
 export const ExpandableGraph = ({ graphData }) => {
     const extraRenderers = [new CSS2DRenderer()];
@@ -25,6 +26,11 @@ export const ExpandableGraph = ({ graphData }) => {
     }, []);
 
     const handleNodeClick = useCallback(async (node) => {
+        const table = document.getElementsByClassName("nodeTable");
+        while(table.length > 0){
+            table[0].parentNode.removeChild(table[0]);
+        }
+        document.getElementById("sidePanel").append(nodeToTable(node));
 
         if (node.collapsed) {
             const key = identifiers?.find((item) => item.label === node.label).key;
@@ -59,11 +65,7 @@ export const ExpandableGraph = ({ graphData }) => {
 
                 setData({ nodes: [...graphData.nodes, ...newNodes], links: [...graphData.links, ...newLinks] });
             }
-
-
-
         } else {
-
             const descendants = getAllDescendants(graphData.links, node.id);
             const newNodes = graphData.nodes.slice();
             newNodes.forEach((item, index) => {
@@ -90,17 +92,18 @@ export const ExpandableGraph = ({ graphData }) => {
         linkWidth={1}
         linkDirectionalParticles={3}
         linkDirectionalArrowLength={5}
-        /* linkThreeObjectExtend={true}
+        linkThreeObjectExtend={true}
         linkThreeObject={(link) => {
             const sprite = new SpriteText(link.relationship.name);
-            sprite.color = "#6494ff";
-            sprite.textHeight = 2.0;
+            sprite.color = "yellow";
+            sprite.textHeight = 7.0;
             return sprite;
         }}
         linkPositionUpdate={(sprite, { start, end }) => {
             const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({ [c]: start[c] + (end[c] - start[c]) / 2 })));
             Object.assign(sprite.position, middlePos);
-        }} */
+        }}
+        d3Force = {(link) =>{d3.forceLink().distance(100)}}
 
         nodeOpacity={0}
         nodeThreeObjectExtend={true}
@@ -113,6 +116,7 @@ export const ExpandableGraph = ({ graphData }) => {
             sprite.textHeight = 10;
             return sprite;
         }}
+
         /* nodeThreeObject={(node) => {
             const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
             const table = document.createElement('table');
