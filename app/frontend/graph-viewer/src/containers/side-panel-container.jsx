@@ -4,21 +4,28 @@ import { QueryModal } from "../components/query-modal";
 const collapsed = false;
 
 function collapsePanel(){
-    var x = document.getElementById("sidePanel");
-    if (x.style.display === "none") {
-        x.style.display = "block";
+    var panel = document.getElementById("sidePanel");
+    var collapseBtn = document.getElementById("collapseButton");
+
+    if (panel.style.display === "none") {
+        panel.style.display = "block";
+        collapseBtn.style.display = "none";
     } else {
-        x.style.display = "none";
+        panel.style.display = "none";
+        collapseBtn.style.display = "block";
     }
 }
 
 export const SidePanel = () => {
     const [openModal, setOpenModal] = useState(true);
     return (
-        <div className="sidePanel" id="sidePanel">
-            <button className="btn" disabled={openModal} onClick={() => setOpenModal(true)}>Query</button>
-            {openModal && <QueryModal setOpenModal={setOpenModal} />}
-            <button className="btn" onClick={() => collapsePanel()}>Panel</button>
-        </div>
+        <>
+            <button className="btn" id="collapseButton" onClick={() => collapsePanel()}>Panel</button>
+            <div className="sidePanel" id="sidePanel">
+                <button className="btn" disabled={openModal} onClick={() => setOpenModal(true)}>Query</button>
+                {openModal && <QueryModal setOpenModal={setOpenModal} />}
+                <button className="btn" onClick={() => collapsePanel()}>Panel</button>
+            </div>
+        </>
     )
 }

@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { AppContext } from "../context/app-context";
 import { useForm, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
 import { FilterOption } from "./filter-option";
 import { queryFormSchema } from "../data/query-form-schema";
 import { Input } from "./Input";
