@@ -5,7 +5,7 @@ import { getIdentifiers } from "../api/get-identifiers";
 import { AppContext } from "../context/app-context";
 
 export const GraphViewer = () => {
-    const { identifiers, setIdentifiers, data, setData } = useContext(AppContext);
+    const { setIdentifiers, data} = useContext(AppContext);
 
     useEffect(() => {
         getIdentifiers().then((result) => {
@@ -13,25 +13,6 @@ export const GraphViewer = () => {
         })
 
     }, []);
-
-    useEffect(() => {
-        if (identifiers) {
-            getNodes({ nodeName: "Person" }).then((result) => {
-                const nodeLabel = "Person";
-                const nodeKey = identifiers?.find((item) => item.label === nodeLabel).key;
-                const nodes = result.data.map((item) => ({ label: nodeLabel, ...item, id: item[nodeKey], collapsed: true }));
-                const links = [];
-
-                const relationStructure = {
-                    nodes,
-                    links
-                };
-                setData(relationStructure);
-
-            })
-        }
-
-    }, [identifiers]);
 
     return (
         <div>
