@@ -5,7 +5,7 @@ body {
   width: 100%;
   height: 100%;
 
-  background-color: rgb(69, 69, 69);
+  background-color: #494949;
 }
 
 /* width */
@@ -130,8 +130,6 @@ button[disabled] {
   display: inline-block;
 }
 
-.condition-container {}
-
 .condition-container .condition-label {
   font-size: 0.75rem;
   font-weight: 700;
@@ -189,6 +187,12 @@ button[disabled] {
   opacity: 75%;
 }
 
-.sidePanel {
-
+.sidePanel table {
+  margin-left: auto;
+  margin-right: auto;
+  border-color: #494949;
+  border-style: solid;
+  border-width: 5px;
+  border-radius: 5px;
+  padding: 5px;
 }
