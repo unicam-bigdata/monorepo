@@ -1,87 +1,128 @@
-import { useState, useMemo, useCallback, React, useEffect } from 'react';
+import { useCallback, React, useContext } from 'react';
 import ForceGraph3D from 'react-force-graph-3d';
 import SpriteText from "three-spritetext";
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
-import { genTableImg } from './nodeToTable';
-import * as THREE from 'three'
+import { getRelatedNodes } from '../api/get-related-nodes';
+import { AppContext } from '../context/app-context';
+import { nodeToTable } from './nodeToTable';
 
 export const ExpandableGraph = ({ graphData }) => {
-    const rootId = "1";
     const extraRenderers = [new CSS2DRenderer()];
+    const { identifiers, setData } = useContext(AppContext);
 
-    const nodesById = useMemo(() => {
-        const nodesById = Object.fromEntries(graphData.nodes.map(node => [node.id, node]));
-        // link parent/children
-        graphData.nodes.forEach(node => {
-            node.collapsed = node.id !== rootId;
-            node.childLinks = [];
-        });
-        graphData.links.forEach(link => nodesById[link.source].childLinks.push(link));
+    const getAllDescendants = useCallback((data, targetId) => {
+        const descendants = [];
 
-        return nodesById;
-    }, [graphData]);
+        function findDescendants(currentId) {
+            const children = data.filter(entry => entry.source.id === currentId);
+            children.forEach(child => {
+                descendants.push(child.target.id);
+                findDescendants(child.target.id);
+            });
+        }
 
-    const getPrunedTree = useCallback(() => {
-        const visibleNodes = [];
-        const visibleLinks = [];
-        (function traverseTree(node = nodesById[rootId]) {
-            visibleNodes.push(node);
-            if (node.collapsed) return;
-            visibleLinks.push(...node.childLinks);
-            node.childLinks
-                .map(link => ((typeof link.target) === 'object') ? link.target : nodesById[link.target]) // get child node
-                .forEach(traverseTree);
-        })();
-
-        return { nodes: visibleNodes, links: visibleLinks };
-    }, [nodesById]);
-
-    const [prunedTree, setPrunedTree] = useState(getPrunedTree());
-
-    const handleNodeClick = useCallback(node => {
-        node.collapsed = !node.collapsed; // toggle collapse state
-        setPrunedTree(getPrunedTree())
+        findDescendants(targetId);
+        return descendants;
     }, []);
+
+    const handleNodeClick = useCallback(async (node) => {
+        const table = document.getElementsByClassName("nodeTable");
+        while(table.length > 0){
+            table[0].parentNode.removeChild(table[0]);
+        }
+        document.getElementById("sidePanel").append(nodeToTable(node));
+
+        if (node.collapsed) {
+            const key = identifiers?.find((item) => item.label === node.label).key;
+            const result = await getRelatedNodes(node.label, key, node.id);
+
+            if (result.data.length > 0) {
+                const newNodes = result.data.filter((nodeItem) => {
+                    let itemNotFound = true;
+                    const newNodeKey = identifiers?.find((identifier) => identifier.label === nodeItem.node.name).key;
+                    graphData.nodes.forEach((item) => {
+                        if (item.id == nodeItem.node.properties[newNodeKey]) {
+                            item = { ...nodeItem.node.properties };
+                            itemNotFound = false;
+                        }
+                    });
+                    return itemNotFound;
+                }).map((item) => {
+                    const newNodeKey = identifiers?.find((identifier) => identifier.label === item.node.name).key;
+                    return {label: item.node.name, ...item.node.properties, id: item.node.properties[newNodeKey],  collapsed: true }
+                })
+
+                const newLinks = result.data.map((item) => {
+                    const newNodeKey = identifiers?.find((identifier) => identifier.label === item.node.name).key;
+                    return { source: node.id, target: item.node.properties[newNodeKey], relationship: item.relationship }
+                });
+
+                graphData.nodes.forEach((item) => {
+                    if (item.id == node.id) {
+                        item.collapsed = false;
+                    }
+                });
+
+                setData({ nodes: [...graphData.nodes, ...newNodes], links: [...graphData.links, ...newLinks] });
+            }
+        } else {
+            const descendants = getAllDescendants(graphData.links, node.id);
+            const newNodes = graphData.nodes.slice();
+            newNodes.forEach((item, index) => {
+                if (item.id == node.id) {
+                    item.collapsed = true;
+                }
+                if (descendants.includes(item.id)) {
+                    newNodes.splice(index, 1);
+                }
+            });
+
+            const newLinks = graphData.links.filter((item) => ((!descendants.includes(item.source.id) && !descendants.includes(item.target.id))));
+
+            setData({ nodes: newNodes, links: newLinks });
+        }
+
+    }, [graphData]);
 
     return <ForceGraph3D
         backgroundColor={"#222222"}
         extraRenderers={extraRenderers}
-        graphData={prunedTree}
-
+        graphData={graphData}
+        
         linkWidth={1}
         linkDirectionalParticles={3}
         linkDirectionalArrowLength={5}
         linkThreeObjectExtend={true}
         linkThreeObject={(link) => {
-            const sprite = new SpriteText((typeof (link.source) == "object" ? link.source.id : link.source) + "->" + (typeof (link.target) == "object" ? link.target.id : link.target));
-            sprite.color = "darkgrey";
-            sprite.textHeight = 10.0;
+            const sprite = new SpriteText(link.relationship.name);
+            sprite.color = "yellow";
+            sprite.textHeight = 7.0;
             return sprite;
         }}
         linkPositionUpdate={(sprite, { start, end }) => {
             const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({ [c]: start[c] + (end[c] - start[c]) / 2 })));
             Object.assign(sprite.position, middlePos);
         }}
+        d3Force = {(link) =>{d3.forceLink().distance(100)}}
 
-        nodeOpacity={0.3}
-        nodeColor={node => !node.childLinks.length ? 'purple' : node.collapsed ? 'blue' : 'yellow'}
+        nodeOpacity={0}
         nodeThreeObjectExtend={true}
-        nodeThreeObject={async( node ) => {
-            const imgTexture = new THREE.TextureLoader().load(await genTableImg(node));
-            imgTexture.colorSpace = THREE.SRGBColorSpace;
-            const material = new THREE.SpriteMaterial({ map: imgTexture });
-            const sprite = new THREE.Sprite(material);
-            sprite.scale.set(12, 12);
+        nodeThreeObject={node => {
+            const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
+            const sprite = new SpriteText(node[nodeProperties[1]]);
+            const color = node.collapsed ? '#6494ff' : '#64ff99';
+
+            sprite.color = color;
+            sprite.textHeight = 10;
             return sprite;
         }}
 
         /* nodeThreeObject={(node) => {
-            console.log(node);
-            const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "collapsed" && key !== "index" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
+            const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
             const table = document.createElement('table');
             table.border = true;
-            const tableBorderColor = !node.childLinks.length ? 'purple' : node.collapsed ? 'blue' : 'yellow';
-            table.style.border = `2px solid ${tableBorderColor}`;
+            const tableBorderColor = node.collapsed ? 'blue' : 'green';
+            table.style.border = `5px solid ${tableBorderColor}`;
             table.style.backgroundColor = "white"
             table.className = "table-container";
 
@@ -105,7 +146,7 @@ export const ExpandableGraph = ({ graphData }) => {
                 cell1.innerHTML = nodeProperties[i];
                 cell2.innerHTML = node[nodeProperties[i]];
             }
-            
+
             table.className = 'node-label';
             return new CSS2DObject(table);
         }} */
