@@ -92,7 +92,6 @@ export const ExpandableGraph = ({ graphData }) => {
                 });
 
                 newLinks = graphData.links.filter((item) => (item.source.id !== node.id && item.target.id !== node.id));
-                console.log(newLinks);
             }
             setData({ nodes: newNodes, links: newLinks });
 
