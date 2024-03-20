@@ -46,14 +46,14 @@ This prototype allows the user to interactively visualize the contents of the gr
 <!-- GETTING STARTED -->
 ## Getting Started
 
-In order to run this project. You will need to run the different components that are required to run the project successfully. The project is composed of 3 components:
-* 1 - Frontend: The component that is responsible for the UI.
+In order to run this project. You will need to run the different components that are required to run the project successfully. The project is composed of 3 main components:
+* 1 - Frontend, responsible for the User Interface.
 
-* 2 - Backend: The component that is responsible for interacting with the database and it provides REST API to be consumed by the frontend or even other external applications
+* 2 - Backend, responsible for interacting with the database and it provides REST API to be consumed by the frontend or even other external applications
 
-* 3 - Neo4J: It is a NoSql graph based database on which data is stored
+* 3 - Neo4J, a NoSql graph based database on which data is stored
 
-The steps to run each components has been specified below:
+The steps to run each components has been specified below.
 
 ### Prerequisites
 <strong>NEO4J Database</strong> and <strong>DOCKER</strong>
