@@ -26,7 +26,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
   </ol>
 </details>
 
@@ -57,14 +56,15 @@ In order to run this project. You will need to run the different components that
 The steps to run each components has been specified below:
 
 ### Prerequisites
+<strong>NEO4J Database</strong> 
 
-NEO4J Database
-<br />
 Below are the steps to run neo4j using docker. If you want to run neo4j without docker you can refer to the instructions <a href="https://neo4j.com/docs/operations-manual/current/installation/">here</a>.
-<br />
-Please follow the following steps to create and run neo4j docker container:
+Please follow the steps in <a href="#installation">installation</a> to create and run neo4j docker container.
 
-1- For the first time, make sure that you comment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file by adding # .
+### Installation
+<strong>NEO4J Database</strong> 
+
+* 1 - For the first time, make sure that you comment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file by adding # .
 
 ```shell
 neo4j:
@@ -80,7 +80,8 @@ neo4j:
       - neo4j_db_data:/data
 ```
 <br/>
-2- Run the following command:
+
+* 2 - Run the following command:
 
 ```shell
 docker compose up -d
@@ -93,19 +94,19 @@ docker-compose up -d
 ```
 
 <br/>
-3- By default, the username and password is neo4j. You will be required to change it by accessing the Neo4J browser 
+* 3 - By default, the username and password is neo4j. You will be required to change it by accessing the Neo4J browser 
 interface <a href="http://localhost:7474/browser/">here</a> . Log in by enter the default username and password and then set your new password.
 <br/>
 
 Note: The Neo4J browser URL is the default url that is running in your machine. Make sure that you change the URL for the Neo4J interface if you are running it on a different port number.
 
-4- Stop docker container by using the following command:
+* 4 - Stop docker container by using the following command:
 
 ```shell
 docker compose down
 ```
 <br/>
-5- Uncomment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file and put the new password you have set earlier by replacing your_new_password with the new password:
+* 5 - Uncomment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file and put the new password you have set earlier by replacing your_new_password with the new password:
 
 ```shell
 neo4j:
@@ -120,113 +121,93 @@ neo4j:
     volumes:
       - neo4j_db_data:/data
 ```
+<br />
+<br />
 
+<strong>The backend</strong> 
+
+-Without docker-
+
+* 1 - Make sure that NEO4J is configured correctly.
 <br/>
-### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+* 2 - In order to run the backend, first switch to this directory "/app/backend". If you are 
+currently in the root folder of this repository. You can insert the following command:
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+```shell
+cd ./app/backend
+```
 
+* 3 - Specify the environment variable by changing the values in /app/backend/src/main/resources/application.properties file. If application.properties file doesn't exist, copy the content of application.properties-sample and create a new application.properties file in the same folder. Customize the values according of the variables according to your configuration. 
+<br/>
+
+
+* 4 - Run the application using:
+<br/>
+
+<strong>MACOS/Linux</strong> 
+
+```shell
+./gradlew bootRun
+```
+Note: Make sure that gradlew file has executable permission. If it is not executable, update the file permission.
+<br/>
+
+<strong>Windows</strong> 
+
+```shell
+.\gradlew.bat bootRun
+```
+
+-With docker-
+
+* 1 - Update the environment variable values by changing the values in docker-compose.yml file in the root directory of the project.  
+<br/>
+
+```shell
+springbootapp:
+    build:
+      context: ./app/backend 
+      dockerfile: Dockerfile 
+    ports:
+      - "8080:8080"
+    environment:
+      - backend.neo4j.uri=bolt://IP:7687 
+      - backend.neo4j.username=neo4j
+      - backend.neo4j.password=DATABASE_PASSWORD
+      - backend.public_domain=http://IP:8080/ # It is the IP or domain of the backend.
+    depends_on:
+      - neo4j 
+```
+
+
+* 2 - Run the application using:
+<br/>
+
+```shell
+docker compose up -d
+```
+
+Note: If you have run the above command earlier when setting up neo4j. Stop the containers and run the above command again. To stop the containers, use the following command:
+
+```shell
+docker compose down
+```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+After running the backend successfully, you can access an Interactive UI API documentation using this link: <a href="http://localhost:8080/swagger-ui/index.html">http://localhost:8080/swagger-ui/index.html</a>
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+For demonstration, we used the dataset available <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">here</a>. Download each sheet in CSV format.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+In order to import data, /csv endpoint can be used. This endpoint accepts two parameters: file: the csv file and config: json string that contains the configuration. Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+The data set consists of list of students, courses, enrollment and friendship (which student is the best friend of the other). Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>. Import the sheets in the following order: Person -> Subject -> Enrollment -> Friendship.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
