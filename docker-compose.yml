@@ -1,7 +1,21 @@
 version: '2'
 services:
 
-  springbootapp:
+  frontend:
+    build:
+      context: ./app/frontend/graph-viewer 
+      dockerfile: Dockerfile 
+    networks:
+      - docker-network
+    container_name: frontend
+    ports:
+      - "4000:80"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8080
+    depends_on:
+      - backend 
+
+  backend:
     build:
       context: ./app/backend 
       dockerfile: Dockerfile 
@@ -13,7 +27,7 @@ services:
     environment:
       - backend.neo4j.uri=bolt://neo4j:7687
       - backend.neo4j.username=neo4j
-      - backend.neo4j.password=password
+      - backend.neo4j.password=golf-happy-picasso-bonus-baron-6004
       - backend.public_domain=http://backend:8080/
       - spring.servlet.multipart.max-file-size=30000KB
       - spring.servlet.multipart.max-request=30000KB
@@ -27,7 +41,7 @@ services:
     container_name: neo4j
     restart: always
     environment:
-      NEO4J_AUTH: neo4j/password
+      NEO4J_AUTH: neo4j/golf-happy-picasso-bonus-baron-6004
     ports:
       - 7474:7474
       - 7687:7687
