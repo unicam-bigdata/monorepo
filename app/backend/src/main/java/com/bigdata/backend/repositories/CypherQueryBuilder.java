@@ -264,7 +264,7 @@ public class CypherQueryBuilder {
             String relation = ":" + relationName;
             query.append(relation);
         }
-        query.append("]-(relatedNode) WHERE ");
+        query.append("]->(relatedNode) WHERE ");
 
         Filter[][] nodeFilterArray = {{relatedNodesRequest.getNodeFilter()}};
         query.append(generateWhereClause("n", nodeFilterArray));

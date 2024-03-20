@@ -13,6 +13,7 @@ export function QueryModal({ setOpenModal }) {
     const { identifiers, setData } = useContext(AppContext);
     const [options, setOptions] = useState([]);
     const [keys, setKeys] = useState([]);
+    const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
     const defaultValues = {
         label: "",
@@ -22,19 +23,29 @@ export function QueryModal({ setOpenModal }) {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, touchedFields },
         control,
         setValue,
         getValues
     } = useForm({
         defaultValues,
-        resolver: yupResolver(queryFormSchema)
+        resolver: yupResolver(queryFormSchema),
+        shouldFocusError: false
     })
 
     const filterFieldArray = useFieldArray({
         control,
         name: "filter",
     });
+
+    const reactHookForm = {
+        filterFieldArray: filterFieldArray,
+        control: control,
+        register: register,
+        errors: errors,
+        touchedFields: touchedFields,
+        isSubmitted: isSubmitClicked
+    };
 
     const onSubmit = async (data) => {
 
@@ -108,14 +119,14 @@ export function QueryModal({ setOpenModal }) {
                     }}>Add filter</button>
                 </div>
                 {options.length > 0 &&
-                    <Input type={"select"} label={"Label"} error={errors.label?.message} selectOptions={options} {...register("label", {
+                    <Input type={"select"} label={"Label"} error={touchedFields?.label || isSubmitClicked ? errors.label?.message : undefined} selectOptions={options} {...register("label", {
                         onChange: onLabelChange
                     })} />
                 }
-                <FilterOption filterFieldArray={filterFieldArray} control={control} register={register} errors={errors} keys={keys} />
+                <FilterOption keys={keys} reactHookForm={reactHookForm} />
 
                 <div className="modal-buttons-container">
-                    <button type="submit" className="btn">Query</button>
+                    <button type="submit" className="btn" onClick={() => setIsSubmitClicked(true)}>Query</button>
                     <button className="btn-outline" onClick={() => setOpenModal(false)}>Cancel</button>
                 </div>
             </form>
