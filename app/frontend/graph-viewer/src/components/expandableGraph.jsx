@@ -27,7 +27,7 @@ export const ExpandableGraph = ({ graphData }) => {
 
     const handleNodeClick = useCallback(async (node) => {
         const table = document.getElementsByClassName("nodeTable");
-        while(table.length > 0){
+        while (table.length > 0) {
             table[0].parentNode.removeChild(table[0]);
         }
         document.getElementById("sidePanel").append(nodeToTable(node));
@@ -49,7 +49,7 @@ export const ExpandableGraph = ({ graphData }) => {
                     return itemNotFound;
                 }).map((item) => {
                     const newNodeKey = identifiers?.find((identifier) => identifier.label === item.node.name).key;
-                    return {label: item.node.name, ...item.node.properties, id: item.node.properties[newNodeKey],  collapsed: true }
+                    return { label: item.node.name, ...item.node.properties, id: item.node.properties[newNodeKey], collapsed: true }
                 })
 
                 const newLinks = result.data.map((item) => {
@@ -66,20 +66,36 @@ export const ExpandableGraph = ({ graphData }) => {
                 setData({ nodes: [...graphData.nodes, ...newNodes], links: [...graphData.links, ...newLinks] });
             }
         } else {
-            const descendants = getAllDescendants(graphData.links, node.id);
-            const newNodes = graphData.nodes.slice();
-            newNodes.forEach((item, index) => {
-                if (item.id == node.id) {
-                    item.collapsed = true;
-                }
-                if (descendants.includes(item.id)) {
-                    newNodes.splice(index, 1);
-                }
-            });
+            let newLinks;
+            let newNodes;
+            try {
+                const descendants = getAllDescendants(graphData.links, node.id);
+                newNodes = graphData.nodes.slice();
+                newNodes.forEach((item, index) => {
+                    if (item.id == node.id) {
+                        item.collapsed = true;
+                    }
+                    if (descendants.includes(item.id)) {
+                        newNodes.splice(index, 1);
+                    }
+                });
 
-            const newLinks = graphData.links.filter((item) => ((!descendants.includes(item.source.id) && !descendants.includes(item.target.id))));
+                newLinks = graphData.links.filter((item) => ((!descendants.includes(item.source.id) && !descendants.includes(item.target.id))));
 
+            } catch (exception) {
+                newNodes = graphData.nodes.slice();
+                newNodes.forEach((item, index) => {
+                    if (item.id == node.id) {
+                        item.collapsed = true;
+                        newNodes.splice(index, 1);
+                    }
+                });
+
+                newLinks = graphData.links.filter((item) => (item.source.id !== node.id && item.target.id !== node.id));
+            }
             setData({ nodes: newNodes, links: newLinks });
+
+
         }
 
     }, [graphData]);
@@ -88,10 +104,10 @@ export const ExpandableGraph = ({ graphData }) => {
         backgroundColor={"#222222"}
         extraRenderers={extraRenderers}
         graphData={graphData}
-        
         linkWidth={1}
         linkDirectionalParticles={3}
         linkDirectionalArrowLength={5}
+        linkDirectionalArrowColor={(link) => { link.color = "red" }}
         linkThreeObjectExtend={true}
         linkThreeObject={(link) => {
             const sprite = new SpriteText(link.relationship.name);
@@ -103,7 +119,7 @@ export const ExpandableGraph = ({ graphData }) => {
             const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({ [c]: start[c] + (end[c] - start[c]) / 2 })));
             Object.assign(sprite.position, middlePos);
         }}
-        d3Force = {(link) =>{d3.forceLink().distance(100)}}
+        d3Force={(link) => { d3.forceLink().distance(100) }}
 
         nodeOpacity={0}
         nodeThreeObjectExtend={true}
@@ -116,41 +132,6 @@ export const ExpandableGraph = ({ graphData }) => {
             sprite.textHeight = 10;
             return sprite;
         }}
-
-        /* nodeThreeObject={(node) => {
-            const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
-            const table = document.createElement('table');
-            table.border = true;
-            const tableBorderColor = node.collapsed ? 'blue' : 'green';
-            table.style.border = `5px solid ${tableBorderColor}`;
-            table.style.backgroundColor = "white"
-            table.className = "table-container";
-
-            // Create table header
-            var headerRow = table.insertRow();
-
-            var headerCell1 = headerRow.insertCell(0);
-            var headerCell2 = headerRow.insertCell(1);
-            headerCell1.className = "node-header";
-            headerCell2.className = "node-header";
-            headerCell1.innerHTML = "Property";
-            headerCell2.innerHTML = "Value";
-
-            // Create rows
-            for (var i = 0; i < nodeProperties.length; i++) {
-                var row = table.insertRow();
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.className = "node-body";
-                cell2.className = "node-body";
-                cell1.innerHTML = nodeProperties[i];
-                cell2.innerHTML = node[nodeProperties[i]];
-            }
-
-            table.className = 'node-label';
-            return new CSS2DObject(table);
-        }} */
-
         onNodeClick={handleNodeClick}
     />;
 };
