@@ -1,3 +1,3 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 export const axiosClient = axios;
