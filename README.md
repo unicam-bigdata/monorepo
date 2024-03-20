@@ -193,6 +193,65 @@ Note: If you have run the above command earlier when setting up neo4j. Stop the 
 ```shell
 docker compose down
 ```
+<br />
+<br />
+
+<strong> The frontend </strong>
+-Without docker-
+
+* 1 - Make sure that NEO4J is configured correctly.
+<br/>
+
+* 2 - In order to run the frontend, first switch to this directory "/app/frontend/graph-viewer". If you are 
+currently in the root folder of this repository. You can insert the following command:
+
+```shell
+cd ./app/frontend/graph-viewer
+```
+
+* 3 - Install dependencies using
+
+```shell
+npm install
+```
+
+<br/>
+
+* 4 - Run the application (make sure that the backend is already running first)
+
+```shell
+npm start
+```
+
+-With docker-
+
+* 1 - if you have deployed the backend in a production enviroment or somewhere else you can specify the url of the backend by changing REACT_APP_BACKEND_URL enviroment variable in the docker-compose.yml file   
+<br/>
+
+```shell
+frontend:
+    build:
+      context: ./app/frontend/graph-viewer 
+      dockerfile: Dockerfile 
+    networks:
+      - docker-network
+    container_name: frontend
+    ports:
+      - "4000:80"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8080
+    depends_on:
+      - backend 
+```
+
+
+* 2 - Run the application using:
+<br/>
+
+```shell
+docker compose up -d
+```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
