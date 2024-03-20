@@ -13,7 +13,7 @@ services:
     environment:
       - backend.neo4j.uri=bolt://neo4j:7687
       - backend.neo4j.username=neo4j
-      - backend.neo4j.password=golf-happy-picasso-bonus-baron-6004
+      - backend.neo4j.password=password
       - backend.public_domain=http://backend:8080/
       - spring.servlet.multipart.max-file-size=30000KB
       - spring.servlet.multipart.max-request=30000KB
@@ -27,7 +27,7 @@ services:
     container_name: neo4j
     restart: always
     environment:
-      NEO4J_AUTH: neo4j/golf-happy-picasso-bonus-baron-6004
+      NEO4J_AUTH: neo4j/password
     ports:
       - 7474:7474
       - 7687:7687

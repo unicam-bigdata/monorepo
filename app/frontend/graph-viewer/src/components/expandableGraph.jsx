@@ -6,9 +6,11 @@ import { getRelatedNodes } from '../api/get-related-nodes';
 import { AppContext } from '../context/app-context';
 import { nodeToTable } from './nodeToTable';
 
+
 export const ExpandableGraph = ({ graphData }) => {
     const extraRenderers = [new CSS2DRenderer()];
-    const { identifiers, setData } = useContext(AppContext);
+    const { identifiers, setData,linkTextHeight } = useContext(AppContext);
+    
 
     const getAllDescendants = useCallback((data, targetId) => {
         const descendants = [];
@@ -112,14 +114,13 @@ export const ExpandableGraph = ({ graphData }) => {
         linkThreeObject={(link) => {
             const sprite = new SpriteText(link.relationship.name);
             sprite.color = "yellow";
-            sprite.textHeight = 7.0;
+            sprite.textHeight = linkTextHeight;
             return sprite;
         }}
         linkPositionUpdate={(sprite, { start, end }) => {
             const middlePos = Object.assign(...['x', 'y', 'z'].map(c => ({ [c]: start[c] + (end[c] - start[c]) / 2 })));
             Object.assign(sprite.position, middlePos);
         }}
-        d3Force={(link) => { d3.forceLink().distance(100) }}
 
         nodeOpacity={0}
         nodeThreeObjectExtend={true}
