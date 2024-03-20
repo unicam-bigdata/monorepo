@@ -56,10 +56,10 @@ In order to run this project. You will need to run the different components that
 The steps to run each components has been specified below:
 
 ### Prerequisites
-<strong>NEO4J Database</strong> 
+<strong>NEO4J Database</strong> and <strong>DOCKER</strong>
 
 Below are the steps to run neo4j using docker. If you want to run neo4j without docker you can refer to the instructions <a href="https://neo4j.com/docs/operations-manual/current/installation/">here</a>.
-Please follow the steps in <a href="#installation">installation</a> to create and run neo4j docker container.
+Please follow the steps in installation to create and run the neo4j docker container.
 
 ### Installation
 <strong>NEO4J Database</strong> 
@@ -197,30 +197,14 @@ docker compose down
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-After running the backend successfully, you can access an Interactive UI API documentation using this link: <a href="http://localhost:8080/swagger-ui/index.html">http://localhost:8080/swagger-ui/index.html</a>
+After running the backend successfully, you can access an Interactive UI API documentation using the <a href="http://localhost:8080/swagger-ui/index.html">swagger user interface</a>
 
-For demonstration, we used the dataset available <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">here</a>. Download each sheet in CSV format.
+For demonstration, we used this <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">dataset</a>, download each sheet in CSV format.
 
-In order to import data, /csv endpoint can be used. This endpoint accepts two parameters: file: the csv file and config: json string that contains the configuration. Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
+In order to import data, <strong>/csv endpoint</strong> can be used, it accepts two parameters: the csv file and the json string that contains the configuration. Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
 
 The data set consists of list of students, courses, enrollment and friendship (which student is the best friend of the other). Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
 
 You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>. Import the sheets in the following order: Person -> Subject -> Enrollment -> Friendship.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
