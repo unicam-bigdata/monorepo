@@ -201,9 +201,16 @@ button[disabled] {
   border: 2px solid #818181d0 !important;
 }
 
-#collapseButton{
+#collapseButton {
   display: none;
   position: absolute;
   margin-left: 10px;
   margin-top: 10px;
+}
+
+#hideLinkTextBtn {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  margin-left: 0;
 }
