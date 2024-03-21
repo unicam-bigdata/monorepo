@@ -126,7 +126,9 @@ export const ExpandableGraph = ({ graphData }) => {
         nodeThreeObjectExtend={true}
         nodeThreeObject={node => {
             const nodeProperties = Object.keys(node).filter((key) => (key !== "childLinks" && key !== "index" && key !== "collapsed" && key !== "vx" && key !== "vz" && key !== "vy" && key !== "x" && key !== "y" && key !== "z" && key !== "id"));
-            const sprite = new SpriteText(node[nodeProperties[1]]);
+            const labelKey = identifiers?.find((identifier) => identifier.label === node.label).labelKey;
+            
+            const sprite = new SpriteText(node[labelKey]);
             const color = node.collapsed ? '#6494ff' : '#64ff99';
 
             sprite.color = color;
