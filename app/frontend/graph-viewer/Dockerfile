@@ -5,7 +5,7 @@ COPY package*.json .
 COPY package*.lock .
 RUN npm install
 COPY . .
-RUN npm build
+RUN npm run build
 
 #Stage 2
 FROM nginx:1.19.0
