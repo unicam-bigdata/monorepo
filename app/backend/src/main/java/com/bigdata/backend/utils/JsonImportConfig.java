@@ -36,6 +36,7 @@ public class JsonImportConfig {
             config.forEach(configItem -> {
                 ImportConfig importConfig = new ImportConfig();
                 importConfig.setName(configItem.get("name").toString());
+                importConfig.setLabelKey(configItem.get("labelKey").toString());
 
                 try {
                     String columnJsonString = objectMapper.writeValueAsString(configItem.get("key"));

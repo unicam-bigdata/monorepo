@@ -57,7 +57,7 @@ public class CypherQueryBuilder {
         Map<String, Object> map = new HashMap<>();
         boolean columnsToLoadExist = false;
         boolean relationshipsToLoadExist = false;
-        String loadCsvString = "LOAD CSV WITH HEADERS FROM '" + PUBLIC_BACKEND_DOMAIN + "cached-csv-file' AS row\n";
+        String loadCsvString = "LOAD CSV WITH HEADERS FROM \"" + PUBLIC_BACKEND_DOMAIN + "cached-csv-file\" AS row\n";
 
         StringBuilder constraintQueryBuilder = new StringBuilder();
         StringBuilder identifierNodesQueryBuilder = new StringBuilder();
@@ -89,7 +89,7 @@ public class CypherQueryBuilder {
 
 
             // Create identifiers node to contain a Label-Key lookup
-            String identifierTable = "Merge (n:Identifier{label:'"+ importConfig.getName() + "',key:'"+importConfig.getKey().getName() +"'}) RETURN n";
+            String identifierTable = "Merge (n:Identifier{label:\""+ importConfig.getName() + "\",key:\""+importConfig.getKey().getName() +"\",labelKey:\""+importConfig.getLabelKey() +"\"}) RETURN n";
             identifierNodesQueryBuilder.append(identifierTable);          
 
             //generate loadNodes query
@@ -107,7 +107,7 @@ public class CypherQueryBuilder {
                     }
                     loadNodesQueryBuilder.append(property);
                 }
-                loadNodesQueryBuilder.append("} IN TRANSACTIONS OF 10 ROWS\n");
+                loadNodesQueryBuilder.append("} IN TRANSACTIONS OF 1000 ROWS\n");
             }
 
             //generate loadRelationships query
@@ -154,7 +154,7 @@ public class CypherQueryBuilder {
                     }
                     loadRelationshipsQueryBuilder.append(relationShipQuery);
                 }
-                loadRelationshipsQueryBuilder.append("} IN TRANSACTIONS OF 10 ROWS\n");
+                loadRelationshipsQueryBuilder.append("} IN TRANSACTIONS OF 1000 ROWS\n");
             }
         }
 
@@ -191,12 +191,12 @@ public class CypherQueryBuilder {
                 if (dataType == ColumnDataType.INTEGER || dataType == ColumnDataType.FLOAT) {
                     rightHand += filterValue;
                 } else if (dataType == ColumnDataType.DATE) {
-                    rightHand += "date('" + filterValue + "')";
+                    rightHand += "date(\"" + filterValue + "\")";
                 } else if (dataType == ColumnDataType.DATETIME) {
-                    rightHand += "datetime('" + filterValue + "')";
+                    rightHand += "datetime(\"" + filterValue + "\")";
 
                 } else {
-                    rightHand += "'" + filterValue + "'";
+                    rightHand += "\"" + filterValue + "\"";
                 }
 
                 condition.append(rightHand);
