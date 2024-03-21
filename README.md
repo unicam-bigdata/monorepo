@@ -261,24 +261,20 @@ After running the backend successfully, you can access an Interactive UI API doc
 
 We are currently using three datasets, for trial you can choose any of datasets mentioned below, download each sheet in CSV format:
 
-* 1 - Student/Course <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">dataset</a>
-<br />
-The data set consists of list of students, courses, enrollment and friendship (which student is the best friend of the other). Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
-
-You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>.
-<br/>
+* 1 - Student/Course <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">dataset</a>.
 Import these sheets in the following order: Person -> Subject -> Enrollment -> Friendship.
 
+
 * 2 - Digital twin <a href="https://docs.google.com/spreadsheets/d/1h1h-0PfRsZoJ7ZNNFhZl_Z1-fpmYzrqtHf_pj20sfvI/edit#gid=0">dataset</a>
-<br />
 Import these sheets in the following order: Capabilites -> Capabiliy-relationships
 
 * 3 - Marvel <a href="https://docs.google.com/spreadsheets/d/154vkqvr3Adh98no4obw5KkVGJiXSBYK1/edit#gid=841937374">dataset</a>
-<br/>
 Import the sheets in the following order: nodes —> edges —> hero-network
 
+You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>.
+In order to import data, <strong>/csv endpoint</strong> can be used, it accepts two parameters: the csv file and the json string that contains the configuration.
+Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
 <br/>
-<br/>
-In order to import data, <strong>/csv endpoint</strong> can be used, it accepts two parameters: the csv file and the json string that contains the configuration. Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
+Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
