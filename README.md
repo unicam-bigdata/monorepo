@@ -1,26 +1,70 @@
-# Running this project
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
+<a name="readme-top"></a>
+<br />
 
-In order to run this project. You will need to run the different components that are required to run the project successfully. The project is composed of 3 components:
-<br/>
+<!-- PROJECT LOGO -->
+<div align="center">
+  <img src="images/big-data-logo.png" alt="Logo" width="450" height="250">
+  <h3 align="center">VIEW#BIGDATA</h3>
+</div>
 
-1- Frontend: The component that is responsible for the UI.
-<br/>
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+  </ol>
+</details>
 
-2- Backend: The component that is responsible for interacting with the database and it provides REST API to be consumed by the frontend or even other external applications
-<br/>
+<!-- ABOUT THE PROJECT -->
+## About The Project
+This project addresses the problems in the visualizations of the extended 3V model of Big Data.
+The objective is the definition of a an interactive system for visualizing Big Data managed through a graph NoSQL database model.
+This prototype allows the user to interactively visualize the contents of the graph database and focus on each node and it's associated links, while inspecting the node.
 
-3- Neo4J: It is a NoSql graph based database on which data is stored
-<br/>
+### Built With
+* ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+* ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+* ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+* ![Neo4J](https://img.shields.io/badge/Neo4j-008CC1?style=for-the-badge&logo=neo4j&logoColor=white)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-The steps to run each components has been specified below:
-<br/>
+<!-- GETTING STARTED -->
+## Getting Started
 
-### NEO4J Database
+In order to run this project. You will need to run the different components that are required to run the project successfully. The project is composed of 3 main components:
+* 1 - Frontend, responsible for the User Interface.
 
-Below are the steps to run neo4j using docker. If you want to run neo4j without docker you can refer to the instructions <a href="https://neo4j.com/docs/operations-manual/current/installation/">here</a>.Please follow the following steps to create and run neo4j docker container:
+* 2 - Backend, responsible for interacting with the database and it provides REST API to be consumed by the frontend or even other external applications
 
-1- For the first time, make sure that you comment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file by adding # .
+* 3 - Neo4J, a NoSql graph based database on which data is stored
+
+The steps to run each components has been specified below.
+
+### Prerequisites
+<strong>NEO4J Database</strong> and <strong>DOCKER</strong>
+
+Below are the steps to run neo4j using docker. If you want to run neo4j without docker you can refer to the instructions <a href="https://neo4j.com/docs/operations-manual/current/installation/">here</a>.
+Please follow the steps in installation to create and run the neo4j docker container.
+
+### Installation
+<strong>NEO4J Database</strong> 
+
+* 1 - For the first time, make sure that you comment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file by adding # .
 
 ```shell
 neo4j:
@@ -36,7 +80,8 @@ neo4j:
       - neo4j_db_data:/data
 ```
 <br/>
-2- Run the following command:
+
+* 2 - Run the following command:
 
 ```shell
 docker compose up -d
@@ -49,19 +94,19 @@ docker-compose up -d
 ```
 
 <br/>
-3- By default, the username and password is neo4j. You will be required to change it by accessing the Neo4J browser 
+* 3 - By default, the username and password is neo4j. You will be required to change it by accessing the Neo4J browser 
 interface <a href="http://localhost:7474/browser/">here</a> . Log in by enter the default username and password and then set your new password.
 <br/>
 
 Note: The Neo4J browser URL is the default url that is running in your machine. Make sure that you change the URL for the Neo4J interface if you are running it on a different port number.
 
-4- Stop docker container by using the following command:
+* 4 - Stop docker container by using the following command:
 
 ```shell
 docker compose down
 ```
 <br/>
-5- Uncomment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file and put the new password you have set earlier by replacing your_new_password with the new password:
+* 5 - Uncomment the NEO4J_AUTH environment variable for the neo4j service in the docker-compose.yml file and put the new password you have set earlier by replacing your_new_password with the new password:
 
 ```shell
 neo4j:
@@ -76,31 +121,31 @@ neo4j:
     volumes:
       - neo4j_db_data:/data
 ```
+<br />
+<br />
 
+<strong>The backend</strong> 
+
+-Without docker-
+
+* 1 - Make sure that NEO4J is configured correctly.
 <br/>
 
-### The Backend
-
-#### Without docker
-
-1- Make sure that NEO4J is configured correctly.
-<br/>
-
-2- In order to run the backend, first switch to this directory "/app/backend". If you are 
+* 2 - In order to run the backend, first switch to this directory "/app/backend". If you are 
 currently in the root folder of this repository. You can insert the following command:
 
 ```shell
 cd ./app/backend
 ```
 
-3- Specify the environment variable by changing the values in /app/backend/src/main/resources/application.properties file. If application.properties file doesn't exist, copy the content of application.properties-sample and create a new application.properties file in the same folder. Customize the values according of the variables according to your configuration. 
+* 3 - Specify the environment variable by changing the values in /app/backend/src/main/resources/application.properties file. If application.properties file doesn't exist, copy the content of application.properties-sample and create a new application.properties file in the same folder. Customize the values according of the variables according to your configuration. 
 <br/>
 
 
-4- Run the application using:
+* 4 - Run the application using:
 <br/>
 
-<strong>MACOS/Linux:</strong> 
+<strong>MACOS/Linux</strong> 
 
 ```shell
 ./gradlew bootRun
@@ -108,15 +153,15 @@ cd ./app/backend
 Note: Make sure that gradlew file has executable permission. If it is not executable, update the file permission.
 <br/>
 
-<strong>Windows:</strong> 
+<strong>Windows</strong> 
 
 ```shell
 .\gradlew.bat bootRun
 ```
 
-#### With docker
+-With docker-
 
-1- Update the environment variable values by changing the values in docker-compose.yml file in the root directory of the project.  
+* 1 - Update the environment variable values by changing the values in docker-compose.yml file in the root directory of the project.  
 <br/>
 
 ```shell
@@ -136,7 +181,7 @@ springbootapp:
 ```
 
 
-2- Run the application using:
+* 2 - Run the application using:
 <br/>
 
 ```shell
@@ -148,26 +193,87 @@ Note: If you have run the above command earlier when setting up neo4j. Stop the 
 ```shell
 docker compose down
 ```
+<br />
+<br />
+
+<strong> The frontend </strong>
+<br />
+-Without docker-
+
+* 1 - Make sure that NEO4J is configured correctly.
 <br/>
 
-#### API documentation
-After running the backend successfully, you can access an Interactive UI API documentation using this link: <a href="http://localhost:8080/swagger-ui/index.html">http://localhost:8080/swagger-ui/index.html</a>
+* 2 - In order to run the frontend, first switch to this directory "/app/frontend/graph-viewer". If you are 
+currently in the root folder of this repository. You can insert the following command:
 
-### Import data 
-This application has been developed to visualize data with various data models (schemas). Unlike SQL databases, where the data schema should be modeled beforehand amd rigid, in this application, the data schema is flexible and changes as data is inserted or updated. This was possible because we have used a NO-SQL graph database called NEO4J.
+```shell
+cd ./app/frontend/graph-viewer
+```
 
-<br/>
+* 3 - Install dependencies using
 
-For demonstration, we used the dataset available <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">here</a>. Download each sheet in CSV format.
-
-<br/>
-
-In order to import data, /csv endpoint can be used. This endpoint accepts two parameters: file: the csv file and config: json string that contains the configuration. Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
-
-<br/>
-
-The data set consists of list of students, courses, enrollment and friendship (which student is the best friend of the other). Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
+```shell
+npm install
+```
 
 <br/>
 
-You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>. Import the sheets in the following order: Person -> Subject -> Enrollment -> Friendship.
+* 4 - Run the application (make sure that the backend is already running first)
+
+```shell
+npm start
+```
+
+-With docker-
+
+* 1 - if you have deployed the backend in a production enviroment or somewhere else you can specify the url of the backend by changing REACT_APP_BACKEND_URL enviroment variable in the docker-compose.yml file   
+<br/>
+
+```shell
+frontend:
+    build:
+      context: ./app/frontend/graph-viewer 
+      dockerfile: Dockerfile 
+    networks:
+      - docker-network
+    container_name: frontend
+    ports:
+      - "4000:80"
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8080
+    depends_on:
+      - backend 
+```
+
+
+* 2 - Run the application using:
+<br/>
+
+```shell
+docker compose up -d
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- USAGE EXAMPLES -->
+## Usage
+After running the backend successfully, you can access an Interactive UI API documentation using the <a href="http://localhost:8080/swagger-ui/index.html">swagger user interface</a>
+
+We are currently using three datasets, for trial you can choose any of datasets mentioned below, download each sheet in CSV format:
+
+* 1 - Student/Course <a href="https://docs.google.com/spreadsheets/d/1H5moQQ0p5ozEcdqwO1rOs1SZWgghvgSCdZxwJV0DmKk/edit?usp=sharing">dataset</a>.
+Import these sheets in the following order: Person -> Subject -> Enrollment -> Friendship.
+
+
+* 2 - Digital twin <a href="https://docs.google.com/spreadsheets/d/1h1h-0PfRsZoJ7ZNNFhZl_Z1-fpmYzrqtHf_pj20sfvI/edit#gid=0">dataset</a>
+Import these sheets in the following order: Capabilites -> Capabiliy-relationships
+
+* 3 - Marvel <a href="https://docs.google.com/spreadsheets/d/154vkqvr3Adh98no4obw5KkVGJiXSBYK1/edit#gid=841937374">dataset</a>
+Import the sheets in the following order: nodes —> edges —> hero-network
+
+You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>.
+In order to import data, <strong>/csv endpoint</strong> can be used, it accepts two parameters: the csv file and the json string that contains the configuration.
+<br/>
+Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
