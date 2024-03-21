@@ -13,7 +13,6 @@ RUN adduser --system --group app-user
 
 COPY --from=build --chown=app-user:app-user ./app/build/libs/ ./app/
 WORKDIR /app
-RUN ls -l
 
 EXPOSE 8080
 USER app-user

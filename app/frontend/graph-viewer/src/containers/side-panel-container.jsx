@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { QueryModal } from "../components/query-modal";
+import { AppContext } from "../context/app-context";
+
 
 const collapsed = false;
 
@@ -18,6 +20,7 @@ function collapsePanel(){
 
 export const SidePanel = () => {
     const [openModal, setOpenModal] = useState(true);
+    const { hideLinkText } = useContext(AppContext);
     return (
         <>
             <button className="btn" id="collapseButton" onClick={() => collapsePanel()}>Panel</button>
@@ -25,6 +28,7 @@ export const SidePanel = () => {
                 <button className="btn" disabled={openModal} onClick={() => setOpenModal(true)}>Query</button>
                 {openModal && <QueryModal setOpenModal={setOpenModal} />}
                 <button className="btn" onClick={() => collapsePanel()}>Panel</button>
+                <button className="btn" id="hideLinkTextBtn" onClick={() => hideLinkText()}>Hide link text</button>
             </div>
         </>
     )

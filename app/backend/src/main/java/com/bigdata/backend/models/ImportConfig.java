@@ -18,17 +18,22 @@ public class ImportConfig {
     @Schema(description = "The column that will serve as the primary key.")
     private Column key;
 
+    @NotNull(message = "labelKey must be defined in order to have a label identifier for a node.")
+    @Schema(description = "The labelKey denotes the property that will serve as the main label of a node.")
+    private String labelKey;
+
     @Schema(description = "Contains array of relationship configurations that the node label specified has. This property is used to define the column in the csv that will serve as a reference to the related node.")
     private Relationship[] relationships;
 
     public ImportConfig() {
     }
 
-    public ImportConfig(String name, Column[] columns, Column key, Relationship[] relationships) {
+    public ImportConfig(String name, Column[] columns, Column key, Relationship[] relationships, String labelKey) {
         this.name = name;
         this.columns = columns;
         this.key = key;
         this.relationships = relationships;
+        this.labelKey = labelKey;
     }
 
 
@@ -69,6 +74,14 @@ public class ImportConfig {
 
     public void setRelationships(Relationship[] relationships) {
         this.relationships = relationships;
+    }
+
+    public String getLabelKey() {
+        return labelKey;
+    }
+
+    public void setLabelKey(String labelKey) {
+        this.labelKey = labelKey;
     }
 
 }
