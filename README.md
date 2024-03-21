@@ -240,7 +240,7 @@ frontend:
     ports:
       - "4000:80"
     environment:
-      - REACT_APP_BACKEND_URL=http://backend:8080
+      - REACT_APP_BACKEND_URL=http://localhost:8080
     depends_on:
       - backend 
 ```
