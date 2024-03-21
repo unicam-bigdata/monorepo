@@ -273,7 +273,6 @@ Import the sheets in the following order: nodes —> edges —> hero-network
 
 You can use the <a href="http://localhost:7474/browser/">NEO4j interface</a>  or the /nodes endpoint in the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a>.
 In order to import data, <strong>/csv endpoint</strong> can be used, it accepts two parameters: the csv file and the json string that contains the configuration.
-Use the <a href="http://localhost:8080/swagger-ui/index.html">API Documentation</a> to import the data.
 <br/>
 Use the config provided <a href="https://docs.google.com/document/d/16pGVM3PQ6YqANRYGSwljpZfaA9TJKV3-jmefUI0ySw8/edit?usp=sharing">here</a> for the config parameter.
 
